@@ -32,6 +32,11 @@ const App = () => {
           <Stripe key={i} data={r} />
         ))}
       </div>
+      <div>
+        <a href="https://github.com/terrierscript/example-linear-gradient-qr-code">
+          Source Code
+        </a>
+      </div>
     </div>
   )
 }
