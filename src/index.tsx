@@ -5,22 +5,27 @@ import { chunk } from "./chunk"
 import { Stripe } from "./Stripe"
 
 const App = () => {
-  const [text, setText] = useState("hello css gradient qr")
+  const [text, setText] = useState(
+    "https://github.com/terrierscript/example-linear-gradient-qr-code"
+  )
   const [rows, setRows] = useState([])
   useEffect(() => {
+    if (text === "") {
+      return
+    }
     const { modules } = QRCode.create(text)
     const _rows = chunk(modules.data, modules.size)
     setRows(_rows)
   }, [text])
   return (
     <div>
-      hello
       <div>
         <input
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
+        <button onClick={() => setText("")}>Clear</button>
       </div>
       <div>
         {rows.map((r, i) => (
