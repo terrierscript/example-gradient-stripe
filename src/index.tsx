@@ -1,70 +1,32 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { render } from "react-dom"
-import styled from "styled-components"
+import QRCode from "qrcode"
+import { chunk } from "./chunk"
+import { Stripe } from "./Stripe"
 
-const toColor = (v) => (v ? "#000" : "#fff")
-const Stripe = styled.div.attrs(({ data }) => {
-  const division = 100 / data.length
-  const linearGradient = data
-    .reduce((acc, d, i) => {
-      const per = division * i
-      const color = toColor(d)
-      const b = i !== 0 ? `${toColor(data[i - 1])} ${per}%` : null
-      const n = `${color} ${per}%`
-      return [...acc, b, n]
-    }, [])
-    .filter((i) => !!i)
-    .join(",")
-  return { linearGradient }
-})`
-  width: 100%;
-  height: 1em;
-  background: linear-gradient(90deg, ${({ linearGradient }) => linearGradient});
-`
 const App = () => {
+  const [text, setText] = useState("hello css gradient qr")
+  const [rows, setRows] = useState([])
+  useEffect(() => {
+    const { modules } = QRCode.create(text)
+    const _rows = chunk(modules.data, modules.size)
+    setRows(_rows)
+  }, [text])
   return (
     <div>
-      <Stripe data={[0, 1]}></Stripe>
-      <Stripe data={[0, 1, 0, 1]}></Stripe>
-      <Stripe data={[0, 1, 0, 1, 0, 1, 0, 1]}></Stripe>
-      <Stripe data={[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]}></Stripe>
-      <Stripe
-        data={[
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          1
-        ]}
-      ></Stripe>
       hello
+      <div>
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </div>
+      <div>
+        {rows.map((r, i) => (
+          <Stripe key={i} data={r} />
+        ))}
+      </div>
     </div>
   )
 }
