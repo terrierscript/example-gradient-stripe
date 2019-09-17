@@ -19,6 +19,7 @@ const App = () => {
   }, [text])
   return (
     <div>
+      <h1>QR Code Generator only CSS Linear Gradient</h1>
       <div>
         <input
           type="text"
