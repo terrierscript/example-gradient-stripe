@@ -29,6 +29,7 @@ const App = () => {
         <button onClick={() => setText("")}>Clear</button>
       </div>
       <div>
+        <Code code={[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]} />
         <Code code={rows} />
         {/* {rows.map((r, i) => (
           <Stripe key={i} data={r} />

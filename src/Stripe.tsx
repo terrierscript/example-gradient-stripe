@@ -28,32 +28,36 @@ export const Stripe = styled.div.attrs(({ data }) => {
   height: 0.5em;
 `
 
-const generateQrCss = (code) => {
+export const generateQrCss = (code) => {
   const rowDivision = 100 / code.length
   const backgroundImage = code
-    .map((data, i) => {
+    .map((data) => {
       const linearGradient = generateGradient(data)
       return `linear-gradient(90deg, ${linearGradient})`
     })
     .join(",")
+  // const backgroundSize = code.map((_, i) => `auto ${rowDivision}%`).join(",")
+  const backgroundSize = `auto ${rowDivision}%`
+  const positionDivision = 100 / (code.length - 1)
   const backgroundPosition = code
-    .map((_, i) => `${rowDivision * i}% top`)
+    .map((_, i) => `left ${positionDivision * i}%`)
     .join(",")
-  const backgroundSize = code
-    .map((_, i) => `auto ${rowDivision * (i + 1)}%`)
-    .join(",")
-  return { backgroundImage, backgroundPosition, backgroundSize }
+
+  return {
+    backgroundImage,
+    backgroundPosition,
+    backgroundSize
+  }
 }
+
 export const Code = styled.div.attrs(({ code }) => {
   return {
-    width: `${code.length / 2}em`,
-    height: `${code.length / 2}em`,
-    style: generateQrCss(code)
+    width: `${code.length}em`,
+    height: `${code.length}em`
   }
 })`
+  ${({ code }) => generateQrCss(code)};
   background-repeat: no-repeat;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
 `
-
-/* height: ${({ width }) => width}; */
