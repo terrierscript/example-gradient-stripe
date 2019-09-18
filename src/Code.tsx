@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const round = (value, base = 2) => {
+const round = (value, base = 3) => {
   // return `${value}%`
   return `${Math.round(value * base) / base}%`
 }
