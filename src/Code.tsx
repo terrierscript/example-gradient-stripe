@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-const round = (value, base = 8) => {
-  // return value
-  return Math.round(value * base) / base
+const round = (value, base = 2) => {
+  // return `${value}%`
+  return `${Math.round(value * base) / base}%`
 }
 const toColor = (v) => (v ? "#000" : "#fff")
 // const toColor = (v) => (v ? "red" : "blue")
@@ -13,8 +13,8 @@ const generateGradient = (data) => {
     .reduce((acc, d, i) => {
       const per = round(division * i)
       const color = toColor(d)
-      const b = i !== 0 ? `${toColor(data[i - 1])} ${per}%` : null
-      const n = `${color} ${per}%`
+      const b = i !== 0 ? `${toColor(data[i - 1])} ${per}` : null
+      const n = `${color} ${per}`
       return [...acc, b, n]
     }, [])
     .filter((i) => !!i)
@@ -39,23 +39,26 @@ export const generateQrCss = (code) => {
     return `linear-gradient(90deg, ${linearGradient})`
   })
   // .join(",")
-  const backgroundSize = `auto ${round(rowDivision)}%`
-  const positionDivision = 100 / (code.length - 1)
-  const backgroundPosition = code.map((_, i) => {
-    return `left ${round(positionDivision * i)}%`
-  })
+  const backgroundSize = code.map(
+    (_, i) => `auto ${round(rowDivision * (i + 1))}`
+  )
+  // const positionDivision = 100 / code.length -1
+  // const backgroundPosition = code.map((_, i) => {
+  //   return `left top ${round(positionDivision * i)}`
+  // })
   // .join(",")
-  const background = [
-    backgroundImage.map((img, i) => {
-      const pos = backgroundPosition[i]
-      return `${img} ${pos}`
-    }),
-    backgroundSize
-  ].join(" ")
+  // const background = [
+  //   backgroundImage.map((img, i) => {
+  //     const pos = backgroundPosition[i]
+  //     return `${img} ${pos}`
+  //   }),
+  //   backgroundSize
+  // ].join(" ")
   return {
     backgroundImage,
-    backgroundPosition,
     backgroundSize
+    // backgroundPosition,
+    // backgroundSize
   }
 }
 
