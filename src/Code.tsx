@@ -52,8 +52,8 @@ export const generateQrCss = (code) => {
 
 export const Code = styled.div.attrs(({ code }) => {
   return {
-    width: `${code.length}em`,
-    height: `${code.length}em`
+    width: `${code.length / 2}em`,
+    height: `${code.length / 2}em`
   }
 })`
   ${({ code }) => generateQrCss(code)};
