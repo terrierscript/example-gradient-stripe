@@ -1,9 +1,10 @@
 import styled from "styled-components"
 
 const toColor = (v) => (v ? "#000" : "#fff")
-export const Stripe = styled.div.attrs(({ data }) => {
+
+const generateGradient = (data) => {
   const division = 100 / data.length
-  const linearGradient = data
+  return data
     .reduce((acc, d, i) => {
       const per = division * i
       const color = toColor(d)
@@ -13,6 +14,9 @@ export const Stripe = styled.div.attrs(({ data }) => {
     }, [])
     .filter((i) => !!i)
     .join(",")
+}
+export const Stripe = styled.div.attrs(({ data }) => {
+  const linearGradient = generateGradient(data)
   return {
     width: `${data.length / 2}em`,
     style: { background: `linear-gradient(90deg, ${linearGradient})` }
