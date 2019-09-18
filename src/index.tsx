@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { render } from "react-dom"
 import QRCode from "qrcode"
 import { chunk } from "./chunk"
-import { Stripe } from "./Stripe"
+import { Stripe, Code } from "./Stripe"
 
 const App = () => {
   const [text, setText] = useState(
@@ -29,9 +29,10 @@ const App = () => {
         <button onClick={() => setText("")}>Clear</button>
       </div>
       <div>
-        {rows.map((r, i) => (
+        <Code code={rows} />
+        {/* {rows.map((r, i) => (
           <Stripe key={i} data={r} />
-        ))}
+        ))} */}
       </div>
       <div>
         <a href="https://github.com/terrierscript/example-linear-gradient-qr-code">
