@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { render } from "react-dom"
 import QRCode from "qrcode"
 import { chunk } from "./chunk"
@@ -26,10 +26,22 @@ const App = () => {
   )
   const [bits, setBits] = useState([])
   const [QRcss, setQrcss] = useState("")
+  const [dataUrl, setDataUrl] = useState("")
+  const canvasRef = useRef(null)
   useEffect(() => {
     if (text === "") {
       return
     }
+    QRCode.toDataURL(text).then((url) => {
+      console.log(url)
+      setDataUrl(url)
+    })
+    // if (canvasRef.current) {
+    //   console.log(canvasRef.current)
+    //   QRCode.toCanvas((canvasRef.current, text), function(err) {
+    //     console.error(err)
+    //   })
+    // }
     const { modules } = QRCode.create(text)
     const _rows = chunk(modules.data, modules.size)
     setBits(_rows)
@@ -50,13 +62,18 @@ const App = () => {
         <button onClick={() => setText("")}>Clear</button>
       </div>
       <div>
-        <QrCode
+        <canvas ref={canvasRef}></canvas>
+        {/* <QrCode
           code={[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]}
-        />
+        /> */}
         <QrCode code={bits} />
+        <div>
+          <img src={dataUrl} />
+        </div>
         {/* {rows.map((r, i) => (
           <Stripe key={i} data={r} />
         ))} */}
+        <Preview>{dataUrl}</Preview>
         <Preview>{QRcss}</Preview>
       </div>
       <div>

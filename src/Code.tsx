@@ -1,21 +1,18 @@
 import styled from "styled-components"
 
-const round = (value, base = 3) => {
-  // return `${value}%`
-  return `${Math.round(value * base) / base}%`
+const round = (value, base = 1) => {
+  return `${Math.round(value * 10 ** base) / 10 ** base}%`
 }
 const toColor = (v) => (v ? "#000" : "#fff")
-// const toColor = (v) => (v ? "red" : "blue")
 
 const generateGradient = (data) => {
   const division = 100 / data.length
   return data
     .reduce((acc, d, i) => {
       const per = round(division * i)
-      const color = toColor(d)
-      const b = i !== 0 ? `${toColor(data[i - 1])} ${per}` : null
-      const n = `${color} ${per}`
-      return [...acc, b, n]
+      const before = i !== 0 ? `${toColor(data[i - 1])} ${per}` : null
+      const current = `${toColor(d)} ${per}`
+      return [...acc, before, current]
     }, [])
     .filter((i) => !!i)
     .join(",")
@@ -42,23 +39,9 @@ export const generateQrCss = (code) => {
   const backgroundSize = code.map(
     (_, i) => `auto ${round(rowDivision * (i + 1))}`
   )
-  // const positionDivision = 100 / code.length -1
-  // const backgroundPosition = code.map((_, i) => {
-  //   return `left top ${round(positionDivision * i)}`
-  // })
-  // .join(",")
-  // const background = [
-  //   backgroundImage.map((img, i) => {
-  //     const pos = backgroundPosition[i]
-  //     return `${img} ${pos}`
-  //   }),
-  //   backgroundSize
-  // ].join(" ")
   return {
     backgroundImage,
     backgroundSize
-    // backgroundPosition,
-    // backgroundSize
   }
 }
 
