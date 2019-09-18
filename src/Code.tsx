@@ -1,5 +1,9 @@
 import styled from "styled-components"
 
+const round = (value, base = 10) => {
+  return value
+  // return Math.round(value * base) / base
+}
 const toColor = (v) => (v ? "#000" : "#fff")
 // const toColor = (v) => (v ? "red" : "blue")
 
@@ -7,11 +11,10 @@ const generateGradient = (data) => {
   const division = 100 / data.length
   return data
     .reduce((acc, d, i) => {
-      const per = division * i
-      const perStr = `calc(100% / ${data.length} * ${i})`
+      const per = round(division * i)
       const color = toColor(d)
-      const b = i !== 0 ? `${toColor(data[i - 1])} ${perStr}` : null
-      const n = `${color} ${perStr}`
+      const b = i !== 0 ? `${toColor(data[i - 1])} ${per}%` : null
+      const n = `${color} ${per}%`
       return [...acc, b, n]
     }, [])
     .filter((i) => !!i)
@@ -30,24 +33,25 @@ export const Stripe = styled.div.attrs(({ data }) => {
 `
 
 export const generateQrCss = (code) => {
-  // const rowDivision = 100 / code.length
-  const backgroundImage = code
-    .map((data) => {
-      const linearGradient = generateGradient(data)
-      return `linear-gradient(90deg, ${linearGradient})`
-    })
-    .join(",")
-  // const backgroundSize = code.map((_, i) => `auto ${rowDivision}%`).join(",")
-  const backgroundSize = `auto calc(100% / ${code.length})`
-  // const positionDivision = 100 / (code.length - 1)
-  const backgroundPosition = code
-    .map((_, i) => {
-      const posCalc = `calc(100% / ${code.length - 1} * ${i} )`
-      return `left ${posCalc}`
-      // return `left ${positionDivision * i}%`
-    })
-    .join(",")
-
+  const rowDivision = 100 / code.length
+  const backgroundImage = code.map((data) => {
+    const linearGradient = generateGradient(data)
+    return `linear-gradient(90deg, ${linearGradient})`
+  })
+  // .join(",")
+  const backgroundSize = `auto ${round(rowDivision)}%`
+  const positionDivision = 100 / (code.length - 1)
+  const backgroundPosition = code.map((_, i) => {
+    return `left ${round(positionDivision) * i}%`
+  })
+  // .join(",")
+  const background = [
+    backgroundImage.map((img, i) => {
+      const pos = backgroundPosition[i]
+      return `${img} ${pos}`
+    }),
+    backgroundSize
+  ].join(" ")
   return {
     backgroundImage,
     backgroundPosition,
