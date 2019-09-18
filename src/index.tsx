@@ -34,9 +34,9 @@ const App = () => {
     const _rows = chunk(modules.data, modules.size)
     setBits(_rows)
   }, [text])
-  // useEffect(() => {
-  //   setQrcss(css(generateQrCss(bits)).map((c) => c.replace(/ /g, "")))
-  // }, [bits])
+  useEffect(() => {
+    setQrcss(css(generateQrCss(bits)))
+  }, [bits])
   // console.log(QRcss)
   return (
     <div>
@@ -57,7 +57,7 @@ const App = () => {
         {/* {rows.map((r, i) => (
           <Stripe key={i} data={r} />
         ))} */}
-        {/* <Preview>{QRcss}</Preview> */}
+        <Preview>{QRcss}</Preview>
       </div>
       <div>
         <a href="https://github.com/terrierscript/example-linear-gradient-qr-code">

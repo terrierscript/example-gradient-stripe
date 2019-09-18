@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
-const round = (value, base = 5) => {
-  return value
+const round = (value, base = 8) => {
+  // return value
   return Math.round(value * base) / base
 }
 const toColor = (v) => (v ? "#000" : "#fff")
@@ -42,7 +42,7 @@ export const generateQrCss = (code) => {
   const backgroundSize = `auto ${round(rowDivision)}%`
   const positionDivision = 100 / (code.length - 1)
   const backgroundPosition = code.map((_, i) => {
-    return `left ${round(positionDivision) * i}%`
+    return `left ${round(positionDivision * i)}%`
   })
   // .join(",")
   const background = [
