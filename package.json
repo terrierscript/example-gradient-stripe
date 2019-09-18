@@ -9,6 +9,7 @@
     "@types/node": "^12.7.4",
     "@types/react": "^16.8.24",
     "@types/react-dom": "^16.8.5",
+    "cssnano": "^4.1.10",
     "obniz": "^2.2.0",
     "parcel": "^1.12.3",
     "qrcode": "^1.4.1",

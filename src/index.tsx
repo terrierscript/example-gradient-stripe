@@ -9,18 +9,23 @@ const PreviewPre = styled.pre`
   background: #ccc;
   padding: 1em;
   border-radius: 0.5em;
+  font-size: 8px;
   width: 100%;
   white-space: pre-wrap;
+  word-break: break-all;
 `
 
 const Preview = (props) => (
-  <PreviewPre {...props}>{/* <PreviewCode  /> */}</PreviewPre>
+  <div>
+    <PreviewPre {...props}>{/* <PreviewCode  /> */}</PreviewPre>
+  </div>
 )
 const App = () => {
   const [text, setText] = useState(
     "https://github.com/terrierscript/example-linear-gradient-qr-code"
   )
   const [bits, setBits] = useState([])
+  const [QRcss, setQrcss] = useState("")
   useEffect(() => {
     if (text === "") {
       return
@@ -29,8 +34,10 @@ const App = () => {
     const _rows = chunk(modules.data, modules.size)
     setBits(_rows)
   }, [text])
-  const QRcss = css(generateQrCss(bits))
-
+  // useEffect(() => {
+  //   setQrcss(css(generateQrCss(bits)).map((c) => c.replace(/ /g, "")))
+  // }, [bits])
+  // console.log(QRcss)
   return (
     <div>
       <h1>QR Code Generator only CSS Linear Gradient</h1>
@@ -50,7 +57,7 @@ const App = () => {
         {/* {rows.map((r, i) => (
           <Stripe key={i} data={r} />
         ))} */}
-        <Preview>{QRcss}</Preview>
+        {/* <Preview>{QRcss}</Preview> */}
       </div>
       <div>
         <a href="https://github.com/terrierscript/example-linear-gradient-qr-code">

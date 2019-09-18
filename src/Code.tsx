@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-const round = (value, base = 10) => {
+const round = (value, base = 5) => {
   return value
-  // return Math.round(value * base) / base
+  return Math.round(value * base) / base
 }
 const toColor = (v) => (v ? "#000" : "#fff")
 // const toColor = (v) => (v ? "red" : "blue")
