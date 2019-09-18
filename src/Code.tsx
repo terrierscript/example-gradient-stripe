@@ -8,9 +8,10 @@ const generateGradient = (data) => {
   return data
     .reduce((acc, d, i) => {
       const per = division * i
+      const perStr = `calc(100% / ${data.length} * ${i})`
       const color = toColor(d)
-      const b = i !== 0 ? `${toColor(data[i - 1])} ${per}%` : null
-      const n = `${color} ${per}%`
+      const b = i !== 0 ? `${toColor(data[i - 1])} ${perStr}` : null
+      const n = `${color} ${perStr}`
       return [...acc, b, n]
     }, [])
     .filter((i) => !!i)
@@ -29,7 +30,7 @@ export const Stripe = styled.div.attrs(({ data }) => {
 `
 
 export const generateQrCss = (code) => {
-  const rowDivision = 100 / code.length
+  // const rowDivision = 100 / code.length
   const backgroundImage = code
     .map((data) => {
       const linearGradient = generateGradient(data)
@@ -37,10 +38,14 @@ export const generateQrCss = (code) => {
     })
     .join(",")
   // const backgroundSize = code.map((_, i) => `auto ${rowDivision}%`).join(",")
-  const backgroundSize = `auto ${rowDivision}%`
-  const positionDivision = 100 / (code.length - 1)
+  const backgroundSize = `auto calc(100% / ${code.length})`
+  // const positionDivision = 100 / (code.length - 1)
   const backgroundPosition = code
-    .map((_, i) => `left ${positionDivision * i}%`)
+    .map((_, i) => {
+      const posCalc = `calc(100% / ${code.length - 1} * ${i} )`
+      return `left ${posCalc}`
+      // return `left ${positionDivision * i}%`
+    })
     .join(",")
 
   return {
